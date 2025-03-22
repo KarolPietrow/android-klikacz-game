@@ -1,0 +1,30 @@
+# Pliki IDE (Android Studio, IntelliJ)
+*.iml
+.idea/
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Pliki systemowe (macOS)
+.DS_Store
+
+# Pliki Gradle
+.gradle
+.build/
+local.properties
+
+# Build i pliki tymczasowe
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+
+# Kluczowe pliki konfiguracyjne
+google-services.json
+*.keystore
+
+# Pliki logów
+*.log
