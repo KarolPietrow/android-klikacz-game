@@ -2,37 +2,37 @@
 
 ![version1](https://github.com/user-attachments/assets/0d990fe9-0cb3-42cd-b1a9-0c5456f383cd)
 
-## Gra typu Clicker, napisana w Kotlinie w Jetpack Compose.
-- **Widok gry** - Klikaj, aby zwiększać wynik i zdobywać osiągnięcia!
-- **Widok sklepu** - Kupuj ulepszenia aby szybciej zwiększać wynik!
-- **Widok rankingu** - Rywalizuj z innymi i przeglądaj najlepszych graczy!
-- **Widok profilu** - Przeglądaj swój profil i przeglądaj zdobyte osiągnięcia!
-- **Widok personalizacji** - Personalizuj swoją rozgrywkę poprzez edycję ekranu gry, oraz zmianę zdjęcia profilowego!
-- **Koło fortuny** - Obejrzyj reklamę, a potem potrząśnij telefonem, aby wylosować przydatne nagrody!
-- **Reklamy** - Aplikacja wykorzystuje Google AdMob w celu wyświetlania reklam banerowych na dole ekranu gry, oraz reklam typu Reward (po obejrzeniu reklamy możliwe jest losowanie Koła fortuny)
+## An Android clicker game written in Kotlin using Jetpack Compose UI.
+- **Game view** - Click to increase the score and earn achievements!
+- **Shop view** - Buy upgrades to increase your score faster!
+- **Ranking view** - Compete with others and browse the top players!
+- **Profile view** - View your profile and browse your achievements!
+- **Personalisation view** - Personalize your gameplay by editing the game screen and changing your profile picture!
+- **Fortune Wheel** - Watch an ad, then shake your phone to win useful rewards!
+- **Ads** - The application uses Google AdMob SDK to display Banner ads (at the bottom of the game screen) and Reward ads (required to use the Fortune Wheel)
 
-## Logowanie i rejestracja
-Możliwość zalogowania i rejestracji adresem e-mail i hasłem, lub korzystając z konta Google.
-Usługa obsługiwana przez Google Firebase Authentication.
-Regulamin i Polityka prywatności aplikacji Klikacz: https://www.karolpietrow.pl/klikacz/tos
+## Login and registration
+Ability to log in and register with an email address and password, or using a Google account.
+Service handled by Google Firebase Authentication.
+Terms and Privacy Policy of the Klikacz application: https://www.karolpietrow.pl/klikacz/tos
 
-## Przechowywanie danych gry
-Dane użytkownika są zapisywane zarówno lokalnie, do SharedPreferences, jak i do Firebase Firestore, dzięki czemu użytkownik może zalogować się na dowolnym urządzeniu i mieć dostęp do swojego postępu.
+## Game data storing
+User data is saved both locally to SharedPreferences and online to Firebase Firestore, so the user can log in from any device and access their progress.
 
-## Kupowanie ulepszeń
-### Dostępny jest sklep, w którym użytkownik może zakupić ulepszenia, które pomogą mu w szybszym zwiększaniu wyniku. Główne typy ulepszeń to:
-- Zwiększanie mnożnika (klikanie przycisku zwiąksza licznik o większą wartość),
-- AutoClicker – ulepszenie, które klika za użytkownika co określony interwał czasowy.
-- Ulepszenia częstotliwości AutoClickera
-- Ulepszenia mnożnika AutoClickera
-- Inne ulepszenia – m.in. ulepszenia personalizacji
+## Purchasing upgrades
+### A shop is available, where the user can purchase upgrades that will help them increase their score faster. The main types of upgrades are:
+- Increase multiplier (clicking the button increases the counter by a higher value),
+- AutoClicker - an upgrade that clicks for the user at a specified time interval.
+- Upgrades to AutoClicker frequency
+- Upgrades to AutoClicker multiplier
+- Other upgrades - including personalization
 
-## Osiągnięcia
-coming soon xd
+## Achievements
+As the user progresses through the game, they earn various achievements that they can view in the Profile tab. Some achievements are secret!
 
-## Personalizacja
-- Użytkownik może kupić ulepszenie odblokowujące personalizację. Dzięki niemu może edytować teksty i emotki wyświetlane na ekranie głównym gry.
-- Użytkownik może ustawić własne zdjęcie profilowe. Jest ono przechowywane w Firebase Firestore zakodowane w formacie Base64.
+## Personalisation
+- User can buy an upgrade that unlocks customization. With it, they can edit the texts and emotes that are displayed on the game's home screen.
+- User can set their own profile picture, which is then stored in Firebase Firestore, encoded in Base64.
 
-## Koło fortuny
-Koło Fortuny Klikacza pozwala wylosować przydatne nagrody, które pomogą szybciej zdobywać punkty! W celu losowania wykorzystywane są czujniki (akcelerometr).
+## Fortune Wheel
+The Klikacz Fortune Wheel lets you draw useful prizes that will help you earn points faster! Device sensors (accelerometer) are used for the spin.
