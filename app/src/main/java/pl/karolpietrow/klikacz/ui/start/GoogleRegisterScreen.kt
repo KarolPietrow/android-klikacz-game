@@ -1,6 +1,5 @@
 package pl.karolpietrow.klikacz.ui.start
 
-import android.net.Uri
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image

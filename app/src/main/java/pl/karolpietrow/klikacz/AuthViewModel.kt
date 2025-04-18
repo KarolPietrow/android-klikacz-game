@@ -27,6 +27,7 @@ import pl.karolpietrow.klikacz.ui.start.GoogleAuthUiClient
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import androidx.core.content.edit
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val sharedPreferences = application.getSharedPreferences("GamePrefs", Context.MODE_PRIVATE)
@@ -60,50 +61,58 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     request = request,
                     context = context
                 ).credential
-                val idToken = googleAuthUiClient.handleSignInResult(credential)
-                idToken.let {
-                    val firebaseCredential = GoogleAuthProvider.getCredential(it, null)
-                    FirebaseAuth.getInstance().signInWithCredential(firebaseCredential)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d("KLIKACZAPP", "Successfully signed in")
-                                val firebaseUser = FirebaseAuth.getInstance().currentUser
-                                if (firebaseUser != null) {
-                                    val db = FirebaseFirestore.getInstance()
-                                    val userDocRef =
-                                        db.collection("users").document(firebaseUser.uid)
-                                            .collection("data").document("user_data")
+                if (credential is GoogleIdTokenCredential) {
+                    val idToken = credential.idToken
+                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                    idToken.let {
+//                    val firebaseCredential = GoogleAuthProvider.getCredential(it, null)
+                        FirebaseAuth.getInstance().signInWithCredential(firebaseCredential)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d("KLIKACZAPP", "Successfully signed in")
+                                    val firebaseUser = FirebaseAuth.getInstance().currentUser
+                                    if (firebaseUser != null) {
+                                        val db = FirebaseFirestore.getInstance()
+                                        val userDocRef =
+                                            db.collection("users").document(firebaseUser.uid)
+                                                .collection("data").document("user_data")
 
-                                    userDocRef.get()
-                                        .addOnSuccessListener { document ->
-                                            if (!document.exists()) { // Nie utworzono konta, wymagana rejestracja
-                                                Log.d(
-                                                    "KLIKACZAPP",
-                                                    "No account detected, register required"
-                                                )
+                                        userDocRef.get()
+                                            .addOnSuccessListener { document ->
+                                                if (!document.exists()) { // Nie utworzono konta, wymagana rejestracja
+                                                    Log.d(
+                                                        "KLIKACZAPP",
+                                                        "No account detected, register required"
+                                                    )
 
-                                                _authState.value = AuthState.GoogleRegisterRequired
-                                            } else { // Konto istnieje, można się zalogować
-                                                Log.d("KLIKACZAPP", "Account exists, logging in")
-                                                _authState.value = AuthState.Authenticated
+                                                    _authState.value = AuthState.GoogleRegisterRequired
+                                                } else { // Konto istnieje, można się zalogować
+                                                    Log.d("KLIKACZAPP", "Account exists, logging in")
+                                                    _authState.value = AuthState.Authenticated
+                                                }
                                             }
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.e("KLIKACZAPP", e.message ?: "Error")
-                                            Log.d("KLIKACZAPP", "Error reading data")
-                                            _authState.value = AuthState.Unauthenticated
-                                        }
-                                } else {
-                                    Log.d("KLIKACZAPP", "Error occurred")
-                                }
+                                            .addOnFailureListener { e ->
+                                                Log.e("KLIKACZAPP", e.message ?: "Error")
+                                                Log.d("KLIKACZAPP", "Error reading data")
+                                                _authState.value = AuthState.Unauthenticated
+                                            }
+                                    } else {
+                                        Log.d("KLIKACZAPP", "Error occurred")
+                                    }
 //                                _signInResult.value = "Zalogowano przez Google!"
-                            } else {
-                                Log.d("KLIKACZAPP", "Error signing in")
-                                _authState.value = AuthState.Unauthenticated
+                                } else {
+                                    Log.d("KLIKACZAPP", "Error signing in")
+                                    _authState.value = AuthState.Unauthenticated
 //                                _signInResult.value = "Błąd logowania: ${task.exception?.message}"
+                                }
                             }
-                        }
+                    }
+                } else {
+                    Log.e("GoogleSignIn", "Nieprawidłowy typ credentiala: ${credential.javaClass.name}")
+                    _authState.value = AuthState.Unauthenticated
+
                 }
+//                val idToken = googleAuthUiClient.handleSignInResult(credential)
             } catch (e: NoCredentialException) {
                 Log.e("GoogleSignIn", "Brak zapisanych poświadczeń lub użytkownik anulował logowanie")
                 _authState.value = AuthState.Unauthenticated

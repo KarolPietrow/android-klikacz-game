@@ -5,7 +5,9 @@ import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import pl.karolpietrow.klikacz.BuildConfig
 import pl.karolpietrow.klikacz.R
 
 class GoogleAuthUiClient (
@@ -14,16 +16,9 @@ class GoogleAuthUiClient (
     suspend fun signInRequest(): GetCredentialRequest {
         return GetCredentialRequest.Builder()
             .addCredentialOption(
-                GetGoogleIdOption.Builder()
-                    .setServerClientId(context.getString(R.string.default_web_client_id))
-                    .setFilterByAuthorizedAccounts(false)
+                GetSignInWithGoogleOption.Builder(BuildConfig.DEFAULT_WEB_CLIENT_ID)
                     .build()
             )
             .build()
-    }
-
-    suspend fun handleSignInResult(result: Credential): String {
-        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(result.data)
-        return googleIdTokenCredential.idToken
     }
 }
