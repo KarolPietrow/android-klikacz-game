@@ -14,7 +14,6 @@
 ## Login and registration
 Ability to log in and register with an email address and password, or using a Google account.
 Service handled by Google Firebase Authentication.
-Terms and Privacy Policy of the Klikacz application: https://www.karolpietrow.pl/klikacz/tos
 
 ## Game data storing
 User data is saved both locally to SharedPreferences and online to Firebase Firestore, so the user can log in from any device and access their progress.
